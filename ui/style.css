@@ -1,0 +1,35 @@
+window {
+    background-color: #f6f5f4;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+list row {
+    padding: 12px;
+    border-bottom: 1px solid #deddda;
+}
+
+entry {
+    padding: 8px;
+    margin: 4px 0;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #3584e4;
+    color: white;
+    border-radius: 4px;
+}
+
+.header {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1c71d8;
+    margin-bottom: 16px;
+}
+
+.danger-button {
+    padding: 8px 16px;
+    background-color: #e43544;
+    color: red;
+    border-radius: 4px;
+}

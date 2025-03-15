@@ -1,0 +1,22 @@
+{
+    "keybindings_title": "快捷键配置",
+    "add_binding": "添加绑定",
+    "save_changes": "保存更改",
+    "search_placeholder": "搜索快捷键...",
+    "binding_type": "绑定类型",
+    "modifiers": "修饰键",
+    "key": "按键",
+    "description": "描述",
+    "command": "命令",
+    "arguments": "参数",
+    "delete_binding": "删除绑定",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save_success": "保存成功",
+    "save_success_msg": "配置已更新",
+    "save_error": "保存失败",
+    "new_binding": "添加新快捷键绑定",
+    "binding_type_desc": "带描述的绑定 (bindd)",
+    "binding_type_repeat": "重复触发 (binde)",
+    "binding_type_lock": "锁定模式 (bindl)"
+} 

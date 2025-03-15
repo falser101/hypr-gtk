@@ -1,0 +1,22 @@
+{
+    "keybindings_title": "Keybindings",
+    "add_binding": "Add Binding",
+    "save_changes": "Save Changes",
+    "search_placeholder": "Search keybindings...",
+    "binding_type": "Binding Type",
+    "modifiers": "Modifiers",
+    "key": "Key",
+    "description": "Description",
+    "command": "Command",
+    "arguments": "Arguments",
+    "delete_binding": "Delete Binding",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save_success": "Success",
+    "save_success_msg": "Configuration updated",
+    "save_error": "Error",
+    "new_binding": "New Binding",
+    "binding_type_desc": "Binding with description (bindd)",
+    "binding_type_repeat": "Repeating binding (binde)",
+    "binding_type_lock": "Lock mode binding (bindl)"
+} 
