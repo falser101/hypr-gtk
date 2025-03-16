@@ -17,10 +17,10 @@ func createSleepPage() *gtk.Box {
 	page.SetMarginEnd(12)
 
 	// Header
-	header := gtk.NewLabel(i18n.Tr("sleep_title"))
-	header.SetXAlign(0)
-	header.SetCSSClasses([]string{"title-1"})
-	page.Append(header)
+	// header := gtk.NewLabel(i18n.Tr("sleep_title"))
+	// header.SetXAlign(0)
+	// header.SetCSSClasses([]string{"header"})
+	// page.Append(header)
 
 	// Listeners section
 	listenersLabel := gtk.NewLabel(i18n.Tr("listeners"))

@@ -16,10 +16,10 @@ func createAnimationsPage() *gtk.Box {
 	page.SetMarginEnd(12)
 
 	// Header
-	header := gtk.NewLabel(i18n.Tr("animations_title"))
-	header.SetXAlign(0)
-	header.SetCSSClasses([]string{"title-1"})
-	page.Append(header)
+	// header := gtk.NewLabel(i18n.Tr("animations_title"))
+	// header.SetXAlign(0)
+	// header.SetCSSClasses([]string{"header"})
+	// page.Append(header)
 
 	// Theme selection section
 	themeBox := gtk.NewBox(gtk.OrientationHorizontal, 6)

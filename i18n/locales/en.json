@@ -46,5 +46,14 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "new_binding": "New Binding",
-    "search_placeholder": "Search keybindings..."
+    "search_placeholder": "Search keybindings...",
+    "userprefs": "User Preferences",
+    "userprefs_title": "User Preferences",
+    "env_variables": "Environment Variables",
+    "exec_once": "Startup Commands",
+    "add_env": "Add Environment Variable",
+    "add_exec": "Add Startup Command",
+    "env_name_placeholder": "Variable name",
+    "env_value_placeholder": "Variable value",
+    "exec_command_placeholder": "Command to run at startup"
 } 

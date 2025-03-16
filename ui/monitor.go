@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"strings"
 
 	"github.com/diamondburned/gotk4/pkg/gtk/v4"
 	"github.con/falser101/hypr-gtk/config"
@@ -15,12 +16,6 @@ func createMonitorsPage() *gtk.Box {
 	mainBox.SetMarginTop(10)
 	mainBox.SetMarginStart(10)
 	mainBox.SetMarginEnd(10)
-
-	// 标题
-	header := gtk.NewLabel(i18n.Tr("monitors_title"))
-	header.SetXAlign(0)
-	header.SetCSSClasses([]string{"header"})
-	mainBox.Append(header)
 
 	// 滚动容器
 	scrolled := gtk.NewScrolledWindow()
@@ -57,66 +52,96 @@ func createMonitorRow(cfg config.MonitorConfig) *gtk.ListBoxRow {
 	box.SetMarginTop(5)
 	box.SetMarginBottom(5)
 
-	// 配置项控件
+	// Monitor name
+	nameLabel := gtk.NewLabel(i18n.Tr("monitor_name") + ":")
 	nameEntry := gtk.NewEntry()
 	nameEntry.SetText(cfg.Name)
 	nameEntry.SetWidthChars(10)
-	nameEntry.SetPlaceholderText(i18n.Tr("monitor_name"))
 
-	resEntry := gtk.NewEntry()
-	resEntry.SetText(cfg.Resolution)
-	resEntry.SetWidthChars(15)
-	resEntry.SetPlaceholderText(i18n.Tr("resolution"))
+	// Get available modes for this monitor
+	modes, err := config.GetAvailableModes(cfg.Name)
+	if err != nil {
+		log.Printf("Failed to get available modes: %v", err)
+		modes = []string{}
+	}
 
-	refreshEntry := gtk.NewEntry()
-	refreshEntry.SetText(fmt.Sprintf("%.2f", cfg.RefreshRate))
-	refreshEntry.SetWidthChars(8)
-	refreshEntry.SetPlaceholderText(i18n.Tr("refresh_rate"))
+	// Resolution dropdown
+	resLabel := gtk.NewLabel(i18n.Tr("resolution") + ":")
+	strList := gtk.NewStringList(modes)
+	resCombo := gtk.NewDropDown(strList, nil)
+	resCombo.SetHExpand(true)
 
+	// Set current mode
+	currentMode := fmt.Sprintf("%s@%.2fHz", cfg.Resolution, cfg.RefreshRate)
+	for i, mode := range modes {
+		if mode == currentMode {
+			resCombo.SetSelected(uint(i))
+			break
+		}
+	}
+
+	// Position
+	posLabel := gtk.NewLabel(i18n.Tr("position") + ":")
 	posEntry := gtk.NewEntry()
 	posEntry.SetText(cfg.Position)
 	posEntry.SetWidthChars(8)
-	posEntry.SetPlaceholderText(i18n.Tr("position"))
 
+	// Scale
+	scaleLabel := gtk.NewLabel(i18n.Tr("scale") + ":")
 	scaleEntry := gtk.NewEntry()
 	scaleEntry.SetText(fmt.Sprintf("%.2f", cfg.Scale))
 	scaleEntry.SetWidthChars(5)
-	scaleEntry.SetPlaceholderText(i18n.Tr("scale"))
 
+	// Enable switch
+	enableLabel := gtk.NewLabel(i18n.Tr("enabled") + ":")
 	enableSwitch := gtk.NewSwitch()
 	enableSwitch.SetActive(cfg.Enabled)
 
+	// Save button
 	saveButton := gtk.NewButtonWithLabel(i18n.Tr("save"))
 	saveButton.ConnectClicked(func() {
-		newCfg := config.MonitorConfig{
-			Name:       nameEntry.Text(),
-			Resolution: resEntry.Text(),
-			Position:   posEntry.Text(),
-			Enabled:    enableSwitch.Active(),
+		selectedMode := modes[resCombo.Selected()]
+		parts := strings.Split(selectedMode, "@")
+		resolution := parts[0]
+		refreshRate := 60.0
+
+		if len(parts) > 1 {
+			rateStr := strings.TrimSuffix(parts[1], "Hz")
+			if rate, err := strconv.ParseFloat(rateStr, 64); err == nil {
+				refreshRate = rate
+			}
 		}
 
-		// 解析数值类型
-		if refresh, err := strconv.ParseFloat(refreshEntry.Text(), 64); err == nil {
-			newCfg.RefreshRate = refresh
+		newCfg := config.MonitorConfig{
+			Name:        nameEntry.Text(),
+			Resolution:  resolution,
+			RefreshRate: refreshRate,
+			Position:    posEntry.Text(),
+			Enabled:     enableSwitch.Active(),
 		}
+
 		if scale, err := strconv.ParseFloat(scaleEntry.Text(), 64); err == nil {
 			newCfg.Scale = scale
 		}
 
 		if err := config.UpdateMonitorConfig(newCfg); err != nil {
 			log.Printf(i18n.Tr("monitor_update_error")+": %v", err)
+			showErrorDialog(nil, "save_error")
 		} else {
-			// 更新显示名称
-			row.SetChild(createMonitorRow(newCfg))
+			showInfoDialog(nil, "save_success")
 		}
 	})
 
-	// 布局控件
+	// Layout
+	box.Append(nameLabel)
 	box.Append(nameEntry)
-	box.Append(resEntry)
-	box.Append(refreshEntry)
+	box.Append(resLabel)
+	box.Append(resCombo)
+	box.Append(posLabel)
 	box.Append(posEntry)
+	box.Append(scaleLabel)
 	box.Append(scaleEntry)
+	box.Append(enableLabel)
 	box.Append(enableSwitch)
 	box.Append(saveButton)
 	row.SetChild(box)

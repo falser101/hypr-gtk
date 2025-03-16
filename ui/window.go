@@ -43,6 +43,10 @@ func NewMainWindow(app *gtk.Application) *MainWindow {
 	sleepPage := createSleepPage()
 	notebook.AppendPage(sleepPage, gtk.NewLabel(i18n.Tr("sleep")))
 
+	// 添加用户偏好页
+	userPrefsPage := createUserPrefsPage()
+	notebook.AppendPage(userPrefsPage, gtk.NewLabel(i18n.Tr("userprefs")))
+
 	// 添加设置页
 	settingsPage := createSettingsPage()
 	notebook.AppendPage(settingsPage, gtk.NewLabel(i18n.Tr("settings")))
