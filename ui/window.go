@@ -16,9 +16,6 @@ func NewMainWindow(app *gtk.Application) *MainWindow {
 	w.SetTitle(i18n.Tr("hyprland_config_tool"))
 	w.SetDefaultSize(800, 600)
 
-	// Store window reference for language updates
-	SetMainWindow(w)
-
 	// 加载CSS样式
 	loadCSS()
 
