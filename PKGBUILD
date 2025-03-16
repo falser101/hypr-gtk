@@ -7,7 +7,7 @@ url="https://github.com/falser101/hypr-gtk"
 license=('Apache')
 makedepends=('go' 'git')
 source=("$url/archive/v$pkgver.tar.gz")
-sha256sums=('c2b19de76da86f82f7019794851577e6f6265cc7950be34aae4e209564f98b51')
+sha256sums=('b65f6735423bdc06cb617feccb2ec4087bcc0113c85e5f25089dd18b42b2e6db')
 
 build() {
   cd "$pkgname-$pkgver"
