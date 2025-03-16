@@ -79,7 +79,7 @@ func createMonitorRow(cfg config.MonitorConfig) *gtk.ListBoxRow {
 	posEntry.SetPlaceholderText(i18n.Tr("position"))
 
 	scaleEntry := gtk.NewEntry()
-	scaleEntry.SetText(fmt.Sprintf("%.1f", cfg.Scale))
+	scaleEntry.SetText(fmt.Sprintf("%.2f", cfg.Scale))
 	scaleEntry.SetWidthChars(5)
 	scaleEntry.SetPlaceholderText(i18n.Tr("scale"))
 

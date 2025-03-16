@@ -4,6 +4,10 @@
     "language": "Language",
     "keybindings": "Keybindings",
     "monitors": "Monitors",
+    "animations": "Animations",
+    "animations_title": "Animation Settings",
+    "animation_theme": "Animation Theme",
+    "animation_theme_updated": "Animation theme has been updated",
     "keybindings_title": "Keybindings",
     "monitors_title": "Monitor Configuration",
     "monitor_name": "Monitor Name",
@@ -16,10 +20,10 @@
     "error": "Error",
     "success": "Success",
     "monitor_load_error": "Failed to load monitor configuration",
-    "monitor_update_error": "Failed to update configuration",
+    "monitor_update_error": "Failed to update monitor configuration",
     "config_updated": "Configuration updated",
     "binding_type": "Binding Type",
-    "binding_type_desc": "Default",
+    "binding_type_desc": "Description",
     "binding_type_repeat": "Repeat",
     "binding_type_lock": "Lock",
     "modifiers": "Modifiers",
@@ -33,5 +37,5 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "new_binding": "New Binding",
-    "search_placeholder": "search"
+    "search_placeholder": "Search keybindings..."
 } 
