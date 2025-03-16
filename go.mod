@@ -1,8 +1,13 @@
 module github.con/falser101/hypr-gtk
 
-go 1.24.1
+go 1.21.0
 
-require github.com/diamondburned/gotk4/pkg v0.3.1
+toolchain go1.24.1
+
+require (
+	github.com/diamondburned/gotk4/pkg v0.3.1
+	gopkg.in/yaml.v2 v2.4.0
+)
 
 require (
 	github.com/KarpelesLab/weak v0.1.1 // indirect

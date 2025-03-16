@@ -18,19 +18,19 @@ type Binding struct {
 	LineNumber  int
 }
 
-type Config struct {
+type KeyBindingsConfig struct {
 	Lines    []string
 	Bindings []Binding
 }
 
-func ReadConfig(filename string) (*Config, error) {
+func ReadConfig(filename string) (*KeyBindingsConfig, error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
-	config := &Config{}
+	config := &KeyBindingsConfig{}
 	scanner := bufio.NewScanner(file)
 	lineNum := 0
 
@@ -101,12 +101,12 @@ func parseBindLine(line string, lineNum int) *Binding {
 	return binding
 }
 
-func (c *Config) Save(filename string) error {
+func (c *KeyBindingsConfig) Save(filename string) error {
 	content := []byte(strings.Join(c.Lines, "\n"))
 	return os.WriteFile(filename, content, 0644)
 }
 
-func (c *Config) findInsertPosition(flags string) int {
+func (c *KeyBindingsConfig) findInsertPosition(flags string) int {
 	lastLine := -1
 	for _, b := range c.Bindings {
 		if b.Flags == flags && b.LineNumber > lastLine {
@@ -125,7 +125,7 @@ func (c *Config) findInsertPosition(flags string) int {
 	return len(c.Lines)
 }
 
-func (c *Config) AddBinding(flags, modifiers, key, description, command, args string) {
+func (c *KeyBindingsConfig) AddBinding(flags, modifiers, key, description, command, args string) {
 	var rightParts []string
 	rightParts = append(rightParts, modifiers, key, description, command)
 	if args != "" {
@@ -154,7 +154,7 @@ func (c *Config) AddBinding(flags, modifiers, key, description, command, args st
 	}
 }
 
-func (c *Config) UpdateBinding(index int, modifiers, key, description, command, args string) {
+func (c *KeyBindingsConfig) UpdateBinding(index int, modifiers, key, description, command, args string) {
 	if index < 0 || index >= len(c.Bindings) {
 		return
 	}
@@ -176,7 +176,7 @@ func (c *Config) UpdateBinding(index int, modifiers, key, description, command, 
 	b.Args = args
 }
 
-func (c *Config) DeleteBinding(index int) {
+func (c *KeyBindingsConfig) DeleteBinding(index int) {
 	if index < 0 || index >= len(c.Bindings) {
 		return
 	}

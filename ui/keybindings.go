@@ -18,7 +18,7 @@ type KeybindingsPage struct {
 	listBox      *gtk.ListBox
 	addButton    *gtk.Button
 	saveButton   *gtk.Button
-	rules        *config.Config
+	rules        *config.KeyBindingsConfig
 	mainWindow   *gtk.Window
 	rows         []*bindingRow
 	searchBox    *gtk.Box
@@ -92,7 +92,8 @@ func NewKeybindingsPage() *KeybindingsPage {
 	page.addButton.ConnectClicked(page.showAddDialog)
 
 	page.saveButton = gtk.NewButtonWithLabel(i18n.Tr("save_changes"))
-	page.saveButton.SetIconName("document-save-symbolic")
+	page.saveButton.SetName(i18n.Tr("save_changes"))
+	//page.saveButton.SetIconName("document-save-symbolic")
 	page.saveButton.ConnectClicked(page.onSaveClicked)
 
 	controls.Append(page.addButton)
@@ -235,9 +236,9 @@ func (p *KeybindingsPage) onSaveClicked() {
 	// Save to file
 	cfgPath := filepath.Join(os.Getenv("HOME"), ".config/hypr/keybindings.conf")
 	if err := p.rules.Save(cfgPath); err != nil {
-		showErrorDialog(p.mainWindow, i18n.Tr("save_error"), err.Error())
+		showErrorDialog(p.mainWindow, err.Error())
 	} else {
-		showInfoDialog(p.mainWindow, i18n.Tr("save_success"), "配置已更新")
+		showInfoDialog(p.mainWindow, "配置已更新")
 	}
 }
 
@@ -355,9 +356,9 @@ func createEntry(placeholder, text string) *gtk.Entry {
 }
 
 // Helper functions for dialogs
-func showErrorDialog(parent *gtk.Window, title, msg string) {
+func showErrorDialog(parent *gtk.Window, msg string) {
 	dialog := gtk.NewWindow()
-	dialog.SetTitle(i18n.Tr("save_error"))
+	dialog.SetTitle(i18n.Tr("error"))
 	dialog.SetTransientFor(parent)
 	dialog.SetModal(true)
 
@@ -368,20 +369,20 @@ func showErrorDialog(parent *gtk.Window, title, msg string) {
 	content.SetMarginEnd(12)
 	dialog.SetChild(content)
 
-	label := gtk.NewLabel("<b>错误:</b> " + msg)
+	label := gtk.NewLabel(i18n.Tr("error") + ": " + msg)
 	label.SetUseMarkup(true)
 	content.Append(label)
 
-	button := gtk.NewButtonWithLabel("确定")
+	button := gtk.NewButtonWithLabel(i18n.Tr("ok"))
 	button.ConnectClicked(func() { dialog.Destroy() })
 	content.Append(button)
 
 	dialog.SetVisible(true)
 }
 
-func showInfoDialog(parent *gtk.Window, title, msg string) {
+func showInfoDialog(parent *gtk.Window, msg string) {
 	dialog := gtk.NewWindow()
-	dialog.SetTitle(i18n.Tr("save_success"))
+	dialog.SetTitle(i18n.Tr("success"))
 	dialog.SetTransientFor(parent)
 	dialog.SetModal(true)
 
@@ -392,16 +393,16 @@ func showInfoDialog(parent *gtk.Window, title, msg string) {
 	content.SetMarginEnd(12)
 	dialog.SetChild(content)
 
-	label := gtk.NewLabel(msg)
+	label := gtk.NewLabel(i18n.Tr(msg))
 	content.Append(label)
 
-	button := gtk.NewButtonWithLabel("确定")
+	button := gtk.NewButtonWithLabel(i18n.Tr("ok"))
 	button.ConnectClicked(func() { dialog.Destroy() })
 	content.Append(button)
 	dialog.SetVisible(true)
 }
 
-func (p *KeybindingsPage) onKeyPress(keyval uint, keycode uint, state gdk.ModifierType) bool {
+func (p *KeybindingsPage) onKeyPress(keyval uint, _ uint, state gdk.ModifierType) bool {
 	// Check for Ctrl+F
 	if state&gdk.ControlMask != 0 && (keyval == gdk.KEY_f || keyval == gdk.KEY_F) {
 		p.searchBox.SetVisible(!p.searchBox.Visible())

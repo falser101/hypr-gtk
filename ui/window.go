@@ -4,6 +4,7 @@ package ui
 import (
 	"github.com/diamondburned/gotk4/pkg/gdk/v4"
 	"github.com/diamondburned/gotk4/pkg/gtk/v4"
+	"github.con/falser101/hypr-gtk/i18n"
 )
 
 type MainWindow struct {
@@ -12,8 +13,11 @@ type MainWindow struct {
 
 func NewMainWindow(app *gtk.Application) *MainWindow {
 	w := gtk.NewApplicationWindow(app)
-	w.SetTitle("Hyprland 配置工具")
+	w.SetTitle(i18n.Tr("hyprland_config_tool"))
 	w.SetDefaultSize(800, 600)
+
+	// Store window reference for language updates
+	SetMainWindow(w)
 
 	// 加载CSS样式
 	loadCSS()
@@ -28,11 +32,15 @@ func NewMainWindow(app *gtk.Application) *MainWindow {
 
 	// 添加快捷键页
 	keybindingsPage := NewKeybindingsPage()
-	notebook.AppendPage(keybindingsPage, gtk.NewLabel("快捷键"))
+	notebook.AppendPage(keybindingsPage, gtk.NewLabel(i18n.Tr("keybindings")))
 
 	// 添加显示器页
 	monitorsPage := createMonitorsPage()
-	notebook.AppendPage(monitorsPage, gtk.NewLabel("显示器"))
+	notebook.AppendPage(monitorsPage, gtk.NewLabel(i18n.Tr("monitors")))
+
+	// 添加设置页
+	settingsPage := createSettingsPage()
+	notebook.AppendPage(settingsPage, gtk.NewLabel(i18n.Tr("settings")))
 
 	return &MainWindow{Window: w}
 }
