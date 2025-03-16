@@ -39,6 +39,10 @@ func NewMainWindow(app *gtk.Application) *MainWindow {
 	animationsPage := createAnimationsPage()
 	notebook.AppendPage(animationsPage, gtk.NewLabel(i18n.Tr("animations")))
 
+	// 添加睡眠管理页
+	sleepPage := createSleepPage()
+	notebook.AppendPage(sleepPage, gtk.NewLabel(i18n.Tr("sleep")))
+
 	// 添加设置页
 	settingsPage := createSettingsPage()
 	notebook.AppendPage(settingsPage, gtk.NewLabel(i18n.Tr("settings")))
