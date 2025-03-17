@@ -2,6 +2,9 @@
 package ui
 
 import (
+	"os"
+	"path/filepath"
+
 	"github.com/diamondburned/gotk4/pkg/gdk/v4"
 	"github.com/diamondburned/gotk4/pkg/gtk/v4"
 	"github.con/falser101/hypr-gtk/i18n"
@@ -56,7 +59,17 @@ func NewMainWindow(app *gtk.Application) *MainWindow {
 
 func loadCSS() {
 	cssProvider := gtk.NewCSSProvider()
-	cssProvider.LoadFromPath("ui/style.css")
+	settings := gtk.SettingsGetDefault()
+	home, _ := os.UserHomeDir()
+	dark := settings.ObjectProperty("gtk-application-prefer-dark-theme").(bool)
+	var configPath string
+	if dark {
+		configPath = filepath.Join(home, ".config/gtk-4.0/", "gtk-dark.css")
+	} else {
+		configPath = filepath.Join(home, ".config/gtk-4.0/", "gtk.css")
+	}
+	cssProvider.LoadFromPath(configPath)
+
 	gtk.StyleContextAddProviderForDisplay(
 		gdk.DisplayGetDefault(),
 		cssProvider,
